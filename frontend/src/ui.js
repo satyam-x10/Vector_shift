@@ -15,6 +15,7 @@ import { FilterNode } from './nodes/filterNode';
 import { APINode } from './nodes/apiNode';
 import { DatabaseNode } from './nodes/databaseNode';
 import { VisualizationNode } from './nodes/visualizationNode';
+import ButtonEdge from './edges/ButtonEdge';
 
 import 'reactflow/dist/style.css';
 
@@ -30,6 +31,10 @@ const nodeTypes = {
   api: APINode,
   database: DatabaseNode,
   visualization: VisualizationNode,
+};
+
+const edgeTypes = {
+  customEdge: ButtonEdge,
 };
 
 const selector = (state) => ({
@@ -112,6 +117,7 @@ export const PipelineUI = () => {
         onDragOver={onDragOver}
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         proOptions={proOptions}
         snapGrid={[gridSize, gridSize]}
         connectionLineType="smoothstep"
