@@ -1,7 +1,7 @@
 // outputNode.js
-
 import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Position } from 'reactflow';
+import { BaseNode } from './BaseNode';
 
 export const OutputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
@@ -16,32 +16,31 @@ export const OutputNode = ({ id, data }) => {
   };
 
   return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-value`}
-      />
-      <div>
-        <span>Output</span>
-      </div>
-      <div>
-        <label>
-          Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
-        </label>
-        <label>
-          Type:
-          <select value={outputType} onChange={handleTypeChange}>
-            <option value="Text">Text</option>
-            <option value="File">Image</option>
-          </select>
-        </label>
-      </div>
-    </div>
+    <BaseNode
+      id={id}
+      data={data}
+      title="Output"
+      handles={[
+        { type: 'target', position: Position.Left, id: 'value' },
+        { type: 'source', position: Position.Right, id: 'out-test' } // Added to enable cycles for testing
+      ]}
+    >
+      <label style={{ display: 'block', marginBottom: '5px' }}>
+        Name:
+        <input 
+          type="text" 
+          value={currName} 
+          onChange={handleNameChange} 
+          style={{ marginLeft: '5px' }}
+        />
+      </label>
+      <label style={{ display: 'block' }}>
+        Type:
+        <select value={outputType} onChange={handleTypeChange} style={{ marginLeft: '5px' }}>
+          <option value="Text">Text</option>
+          <option value="File">Image</option>
+        </select>
+      </label>
+    </BaseNode>
   );
 }
