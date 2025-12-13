@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { Modal } from './ui/Modal';
+import { VscDebugStart } from 'react-icons/vsc';
 
 const selector = (state) => ({
     nodes: state.nodes,
@@ -36,12 +37,11 @@ export const SubmitButton = () => {
     };
 
     return (
-        <>
-            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <button type="submit" onClick={handleSubmit}>
-                    {isLoading ? 'Scanning...' : 'Submit Pipeline'}
-                </button>
-            </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <button className="btn-primary" type="submit" onClick={handleSubmit}>
+                <VscDebugStart style={{ fontSize: '18px' }} />
+                {isLoading ? 'Scanning...' : 'Submit Pipeline'}
+            </button>
             
             <Modal
                 isOpen={!!modalData}
@@ -68,6 +68,6 @@ export const SubmitButton = () => {
                     </div>
                 </div>
             </Modal>
-        </>
+        </div>
     );
 }

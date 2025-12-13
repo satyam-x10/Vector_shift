@@ -99,8 +99,7 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} style={{width: '100vw', height: '100vh'}}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -117,9 +116,8 @@ export const PipelineUI = () => {
             >
                 <Background color="#505050" gap={gridSize} />
                 <Controls />
-                <MiniMap style={{background: '#1e1e2e', stroke: '#333'}} nodeStrokeColor='#505050' nodeColor='#1e1e2e' />
+                <MiniMap style={{background: '#1e1e2e', stroke: '#333'}} nodeStrokeColor='#505050' nodeColor='#1e1e2e' position="top-left" />
             </ReactFlow>
         </div>
-        </>
     )
 }
