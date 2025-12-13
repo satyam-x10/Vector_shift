@@ -1,3 +1,6 @@
 # all files ending with .pyc
 *.pyc
 *.lock
+package-lock.json
+__pycache__
+node_modules
