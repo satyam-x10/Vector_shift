@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { Modal } from './ui/Modal';
-import { VscDebugStart, VscLoading } from 'react-icons/vsc';
+import { VscDebugStart, VscLoading, VscCheck, VscSymbolClass, VscLink, VscError } from 'react-icons/vsc';
 
 const selector = (state) => ({
     nodes: state.nodes,
@@ -71,56 +71,129 @@ export const SubmitButton = () => {
                 </button>
             )}
 
+
             <Modal
                 isOpen={!!modalData}
                 onClose={() => setModalData(null)}
                 title="Pipeline Analysis"
             >
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     <div
                         style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            marginBottom: '10px',
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            gap: '12px',
+                            marginBottom: '8px',
                         }}
                     >
-                        <span style={{ width: '120px', color: '#9ca3af' }}>Nodes:</span>
-                        <span style={{ fontWeight: 'bold' }}>{modalData?.num_nodes}</span>
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            marginBottom: '10px',
-                        }}
-                    >
-                        <span style={{ width: '120px', color: '#9ca3af' }}>Edges:</span>
-                        <span style={{ fontWeight: 'bold' }}>{modalData?.num_edges}</span>
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            marginTop: '16px',
-                            padding: '10px',
-                            background: 'rgba(255,255,255,0.05)',
-                            borderRadius: '8px',
-                        }}
-                    >
-                        <span style={{ width: '120px', color: '#9ca3af' }}>Status:</span>
-                        <span
+                        {/* Nodes */}
+                        <div
                             style={{
-                                fontWeight: 'bold',
-                                color: modalData?.is_dag ? '#4ade80' : '#ef4444',
+                                padding: '12px',
+                                background: 'rgba(255,255,255,0.03)',
+                                borderRadius: '8px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '6px',
                             }}
                         >
-                            {modalData?.is_dag
-                                ? 'Directed Acyclic Graph (DAG)'
-                                : 'Cycle Detected (Not a DAG)'}
-                        </span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <VscSymbolClass size={24} color="#a1a1aa" />
+                                <span
+                                    style={{
+                                        color: '#a1a1aa',
+                                        fontSize: '12px',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px',
+                                    }}
+                                >
+                                    Nodes
+                                </span>
+                            </div>
+                            <span style={{ fontSize: '20px', fontWeight: '600', color: '#e4e4e7' }}>
+                                {modalData?.num_nodes}
+                            </span>
+                        </div>
+
+                        {/* Edges */}
+                        <div
+                            style={{
+                                padding: '12px',
+                                background: 'rgba(255,255,255,0.03)',
+                                borderRadius: '8px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '6px',
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <VscLink size={24} color="#a1a1aa" />
+                                <span
+                                    style={{
+                                        color: '#a1a1aa',
+                                        fontSize: '12px',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px',
+                                    }}
+                                >
+                                    Edges
+                                </span>
+                            </div>
+                            <span style={{ fontSize: '20px', fontWeight: '600', color: '#e4e4e7' }}>
+                                {modalData?.num_edges}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* DAG status */}
+                    <div
+                        style={{
+                            padding: '16px',
+                            background: modalData?.is_dag
+                                ? 'rgba(74, 222, 128, 0.1)'
+                                : 'rgba(239, 68, 68, 0.1)',
+                            borderRadius: '8px',
+                            border: `1px solid ${modalData?.is_dag
+                                ? 'rgba(74, 222, 128, 0.2)'
+                                : 'rgba(239, 68, 68, 0.2)'
+                                }`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                        }}
+                    >
+                        {modalData?.is_dag ? (
+                            <VscCheck size={24} color="#4ade80" />
+                        ) : (
+                            <VscError size={24} color="#ef4444" />
+                        )}
+
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span
+                                style={{
+                                    fontWeight: '600',
+                                    color: modalData?.is_dag ? '#4ade80' : '#ef4444',
+                                    fontSize: '15px',
+                                }}
+                            >
+                                {modalData?.is_dag ? 'Pipeline is Healthy' : 'Invalid Pipeline'}
+                            </span>
+                            <span
+                                style={{
+                                    color: '#d4d4d8',
+                                    fontSize: '13px',
+                                    marginTop: '2px',
+                                }}
+                            >
+                                {modalData?.is_dag
+                                    ? 'Successfully validated as a Directed Acyclic Graph.'
+                                    : 'Cycle detected. Please check node connections.'}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </Modal>
+
         </div>
     );
 };
