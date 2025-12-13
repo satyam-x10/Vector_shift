@@ -169,7 +169,7 @@ button[type='submit']:active {
 .node-delete-btn {
   background: transparent;
   border: none;
-  color: #64748b;
+  color: #b69c5b;
   font-size: 16px;
   cursor: pointer;
   transition: color 0.15s;
