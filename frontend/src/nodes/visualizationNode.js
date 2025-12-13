@@ -1,6 +1,6 @@
 // visualizationNode.js
 import { Position } from 'reactflow';
-import { BaseNode } from './BaseNode';
+import { BaseNode } from '../components/BaseNode';
 import { VscGraph } from 'react-icons/vsc';
 
 export const VisualizationNode = ({ id, data }) => {

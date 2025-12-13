@@ -1,6 +1,6 @@
 // databaseNode.js
 import { Position } from 'reactflow';
-import { BaseNode } from './BaseNode';
+import { BaseNode } from '../components/BaseNode';
 import { VscDatabase } from 'react-icons/vsc';
 
 export const DatabaseNode = ({ id, data }) => {

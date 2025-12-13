@@ -1,6 +1,6 @@
 // filterNode.js
 import { Position } from 'reactflow';
-import { BaseNode } from './BaseNode';
+import { BaseNode } from '../components/BaseNode';
 import { VscFilter } from 'react-icons/vsc';
 
 export const FilterNode = ({ id, data }) => {

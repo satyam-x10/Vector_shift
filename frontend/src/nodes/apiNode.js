@@ -1,6 +1,6 @@
 // apiNode.js
 import { Position } from 'reactflow';
-import { BaseNode } from './BaseNode';
+import { BaseNode } from '../components/BaseNode';
 import { VscCloud } from 'react-icons/vsc';
 
 export const APINode = ({ id, data }) => {

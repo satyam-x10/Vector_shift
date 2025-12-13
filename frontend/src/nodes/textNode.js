@@ -1,8 +1,8 @@
-// textNode.js
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Handle, Position, useUpdateNodeInternals } from 'reactflow';
-import { BaseNode } from './BaseNode';
+import { BaseNode } from '../components/BaseNode';
 import { VscSymbolString } from 'react-icons/vsc';
+import { useVariableDetection } from '../hooks/useVariableDetection';
 
 export const TextNode = ({ id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
@@ -20,11 +20,7 @@ export const TextNode = ({ id, data }) => {
     }
   }, [currText]);
 
-  const variables = useMemo(() => {
-    const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
-    const matches = [...currText.matchAll(regex)];
-    return Array.from(new Set(matches.map((m) => m[1])));
-  }, [currText]);
+  const variables = useVariableDetection(currText);
 
   // Handle Updates
   useEffect(() => {

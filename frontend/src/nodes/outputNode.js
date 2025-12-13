@@ -1,22 +1,15 @@
-// outputNode.js
-import { useState } from 'react';
 import { Position } from 'reactflow';
-import { BaseNode } from './BaseNode';
+import { BaseNode } from '../components/BaseNode';
 import { VscSymbolKeyword } from 'react-icons/vsc';
+import { useNodeForm } from '../hooks/useNodeForm';
+import { InputControl } from '../components/InputControl';
+import { SelectControl } from '../components/SelectControl';
 
 export const OutputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(
-    data?.outputName || id.replace('customOutput-', 'output_')
-  );
-  const [outputType, setOutputType] = useState(data.outputType || 'Text');
-
-  const handleNameChange = (e) => {
-    setCurrName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setOutputType(e.target.value);
-  };
+  const [values, handleChange] = useNodeForm({
+    currName: data?.outputName || id.replace('customOutput-', 'output_'),
+    outputType: data.outputType || 'Text',
+  });
 
   return (
     <BaseNode
@@ -27,29 +20,23 @@ export const OutputNode = ({ id, data }) => {
       color="#f43f5e" // Rose
       handles={[
         { type: 'target', position: Position.Left, id: 'value' },
-        { type: 'source', position: Position.Right, id: 'out-test' }, // Added to enable cycles for testing
+        { type: 'source', position: Position.Right, id: 'out-test' },
       ]}
     >
-      <label style={{ display: 'block', marginBottom: '5px' }}>
-        Name:
-        <input
-          type="text"
-          value={currName}
-          onChange={handleNameChange}
-          style={{ marginLeft: '5px' }}
-        />
-      </label>
-      <label style={{ display: 'block' }}>
-        Type:
-        <select
-          value={outputType}
-          onChange={handleTypeChange}
-          style={{ marginLeft: '5px' }}
-        >
-          <option value="Text">Text</option>
-          <option value="File">Image</option>
-        </select>
-      </label>
+      <InputControl
+        label="Name"
+        value={values.currName}
+        onChange={handleChange('currName')}
+      />
+      <SelectControl
+        label="Type"
+        value={values.outputType}
+        onChange={handleChange('outputType')}
+        options={[
+          { value: 'Text', label: 'Text' },
+          { value: 'File', label: 'Image' },
+        ]}
+      />
     </BaseNode>
   );
 };
