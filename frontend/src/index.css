@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,12 +7,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f3f4f6;
-  --primary-color: #4f46e5;
-  --border-color: #e5e7eb;
-  --node-bg: #ffffff;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
+  background-color: #1a1a2e;
+  /* Deep dark blue/purple */
+  color: #e2e8f0;
 }
 
 code {
@@ -18,48 +17,86 @@ code {
     monospace;
 }
 
-/* Custom Node Styling */
-.custom-node {
-  background: var(--node-bg);
-  border: 1px solid var(--border-color);
+/* Toolbar Styling */
+.toolbar {
+
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Draggable Node Item in Toolbar */
+.draggable-node {
+  background: #272736;
+  border: 1px solid #3f3f46;
+  color: #d4d4d8;
+  padding: 8px 16px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: grab;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.draggable-node:hover {
+  background: #3f3f46;
+  color: #fff;
+  transform: translateY(-2px);
+  border-color: #6366f1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+/* Custom Node on Canvas */
+.custom-node {
+  background: #1e1e2e;
+  border: 1px solid #3f3f46;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
   min-width: 200px;
   height: auto;
-  padding: 12px;
+  padding: 0;
   position: relative;
-  /* Crucial for handles */
   font-size: 14px;
-  color: var(--text-primary);
+  color: #e2e8f0;
 }
 
 .custom-node:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-color: var(--primary-color);
+  border-color: #818cf8;
+  box-shadow: 0 0 0 1px #818cf8, 0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
 .custom-node-header {
-  padding-bottom: 8px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--primary-color);
+  padding: 12px 16px;
+  border-bottom: 1px solid #3f3f46;
+  color: #e2e8f0;
   font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .custom-node-body {
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-/* Inputs & Selects inside Nodes */
+/* Node Inputs */
 .custom-node label {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: #94a3b8;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -70,49 +107,85 @@ code {
 .custom-node select,
 .custom-node textarea {
   width: 100%;
-  padding: 8px;
-  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border: 1px solid #3f3f46;
   border-radius: 6px;
   font-size: 13px;
-  color: var(--text-primary);
-  background-color: #f9fafb;
+  color: #e2e8f0;
+  background-color: #0f0f13;
   box-sizing: border-box;
-  /* Ensure padding doesn't overflow width */
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: all 0.2s;
 }
 
 .custom-node input[type="text"]:focus,
 .custom-node select:focus,
 .custom-node textarea:focus {
-  border-color: var(--primary-color);
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #6366f1;
+  background-color: #14141d;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
-/* ReactFlow Handles */
+/* Submit Button */
+button[type="submit"] {
+  background: #6366f1 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 12px 28px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.25) !important;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background: #4f46e5 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4) !important;
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Delete Button */
+.node-delete-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.node-delete-btn:hover {
+  color: #ef4444;
+}
+
+/* Handles */
 .react-flow__handle {
-  width: 12px;
-  /* Larger hit area */
-  height: 12px;
-  background-color: var(--primary-color);
-  border: 2px solid white;
-  z-index: 100;
-  /* Ensure strictly on top */
-  transition: transform 0.1s;
+  width: 10px;
+  height: 10px;
+  background-color: #c084fc;
+  /* Bright purple */
+  border: 2px solid #1e1e2e;
+  border-radius: 50%;
+  z-index: 10;
 }
 
 .react-flow__handle:hover {
-  background-color: #4338ca;
-  transform: scale(1.2);
+  background-color: #d8b4fe;
+  transform: scale(1.3);
   cursor: crosshair;
 }
 
-/* Position overrides to pull handles out slightly */
 .react-flow__handle-left {
-  left: -6px;
+  left: -5px;
 }
 
 .react-flow__handle-right {
-  right: -6px;
+  right: -5px;
 }

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Position, useUpdateNodeInternals } from 'reactflow';
 import { BaseNode } from './BaseNode';
+import { VscSymbolString } from 'react-icons/vsc';
 
 export const TextNode = ({ id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
@@ -58,6 +59,8 @@ export const TextNode = ({ id, data }) => {
       id={id}
       data={data}
       title="Text"
+      icon={VscSymbolString}
+      color="#f59e0b" // Amber
       handles={handles}
     >
       <label style={{ display: 'block', height: '100%' }}>

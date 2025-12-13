@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from './BaseNode';
+import { VscSymbolInterface } from 'react-icons/vsc';
 
 export const InputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
@@ -20,6 +21,8 @@ export const InputNode = ({ id, data }) => {
       id={id}
       data={data}
       title="Input"
+      icon={VscSymbolInterface}
+      color="#10b981" // Emerald
       handles={[
         { type: 'source', position: Position.Right, id: 'value' },
         { type: 'target', position: Position.Left, id: 'in-test' } // Added to enable cycles for testing

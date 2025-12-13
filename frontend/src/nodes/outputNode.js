@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from './BaseNode';
+import { VscSymbolKeyword } from 'react-icons/vsc';
 
 export const OutputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
@@ -20,6 +21,8 @@ export const OutputNode = ({ id, data }) => {
       id={id}
       data={data}
       title="Output"
+      icon={VscSymbolKeyword}
+      color="#f43f5e" // Rose
       handles={[
         { type: 'target', position: Position.Left, id: 'value' },
         { type: 'source', position: Position.Right, id: 'out-test' } // Added to enable cycles for testing

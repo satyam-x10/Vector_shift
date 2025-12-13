@@ -1,6 +1,8 @@
 // submit.js
+import { useState } from 'react';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
+import { Modal } from './ui/Modal';
 
 const selector = (state) => ({
     nodes: state.nodes,
@@ -9,8 +11,11 @@ const selector = (state) => ({
 
 export const SubmitButton = () => {
     const { nodes, edges } = useStore(selector, shallow);
+    const [modalData, setModalData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async () => {
+        setIsLoading(true);
         try {
             const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
                 method: 'POST',
@@ -21,34 +26,48 @@ export const SubmitButton = () => {
             });
 
             const data = await response.json();
-            alert(`Pipeline Analysis:\nNumber of Nodes: ${data.num_nodes}\nNumber of Edges: ${data.num_edges}\nIs DAG: ${data.is_dag}`);
+            setModalData(data);
         } catch (error) {
             console.error(error);
             alert('Error submitting pipeline. Ensure backend is running.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <button 
-                type="submit" 
-                onClick={handleSubmit}
-                style={{
-                    marginTop: '20px',
-                    padding: '10px 20px',
-                    backgroundColor: '#4f46e5', // primary color
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: '600',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                    transition: 'background-color 0.2s'
-                }}
+        <>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <button type="submit" onClick={handleSubmit}>
+                    {isLoading ? 'Scanning...' : 'Submit Pipeline'}
+                </button>
+            </div>
+            
+            <Modal
+                isOpen={!!modalData}
+                onClose={() => setModalData(null)}
+                title="Pipeline Analysis"
             >
-                Submit
-            </button>
-        </div>
+                <div>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <span style={{ width: '120px', color: '#9ca3af' }}>Nodes:</span>
+                        <span style={{ fontWeight: 'bold' }}>{modalData?.num_nodes}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <span style={{ width: '120px', color: '#9ca3af' }}>Edges:</span>
+                        <span style={{ fontWeight: 'bold' }}>{modalData?.num_edges}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px', padding: '10px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+                        <span style={{ width: '120px', color: '#9ca3af' }}>Status:</span>
+                        <span style={{ 
+                            fontWeight: 'bold', 
+                            color: modalData?.is_dag ? '#4ade80' : '#ef4444' 
+                        }}>
+                            {modalData?.is_dag ? 'Directed Acyclic Graph (DAG)' : 'Cycle Detected (Not a DAG)'}
+                        </span>
+                    </div>
+                </div>
+            </Modal>
+        </>
     );
 }

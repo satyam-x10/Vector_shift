@@ -1,6 +1,7 @@
 // filterNode.js
 import { Position } from 'reactflow';
 import { BaseNode } from './BaseNode';
+import { VscFilter } from 'react-icons/vsc';
 
 export const FilterNode = ({ id, data }) => {
   return (
@@ -8,6 +9,8 @@ export const FilterNode = ({ id, data }) => {
       id={id}
       data={data}
       title="Filter"
+      icon={VscFilter}
+      color="#f97316" // Orange
       handles={[
         { type: 'target', position: Position.Left, id: 'input' },
         { type: 'source', position: Position.Right, id: 'output' }
