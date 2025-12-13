@@ -13,7 +13,7 @@ export const DatabaseNode = ({ id, data }) => {
       color="#64748b" // Slate
       handles={[
         { type: 'target', position: Position.Left, id: 'query' },
-        { type: 'source', position: Position.Right, id: 'result' }
+        { type: 'source', position: Position.Right, id: 'result' },
       ]}
     >
       <span>Database Query</span>

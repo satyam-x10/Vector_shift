@@ -12,12 +12,22 @@ export const LLMNode = ({ id, data }) => {
       icon={VscCircuitBoard}
       color="#8b5cf6" // Violet
       handles={[
-        { type: 'target', position: Position.Left, id: 'system', style: { top: '33%' } },
-        { type: 'target', position: Position.Left, id: 'prompt', style: { top: '66%' } },
-        { type: 'source', position: Position.Right, id: 'response' }
+        {
+          type: 'target',
+          position: Position.Left,
+          id: 'system',
+          style: { top: '33%' },
+        },
+        {
+          type: 'target',
+          position: Position.Left,
+          id: 'prompt',
+          style: { top: '66%' },
+        },
+        { type: 'source', position: Position.Right, id: 'response' },
       ]}
     >
       <span>This is a LLM.</span>
     </BaseNode>
   );
-}
+};

@@ -5,7 +5,9 @@ import { BaseNode } from './BaseNode';
 import { VscSymbolInterface } from 'react-icons/vsc';
 
 export const InputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
+  const [currName, setCurrName] = useState(
+    data?.inputName || id.replace('customInput-', 'input_')
+  );
   const [inputType, setInputType] = useState(data.inputType || 'Text');
 
   const handleNameChange = (e) => {
@@ -25,25 +27,29 @@ export const InputNode = ({ id, data }) => {
       color="#10b981" // Emerald
       handles={[
         { type: 'source', position: Position.Right, id: 'value' },
-        { type: 'target', position: Position.Left, id: 'in-test' } // Added to enable cycles for testing
+        { type: 'target', position: Position.Left, id: 'in-test' }, // Added to enable cycles for testing
       ]}
     >
       <label style={{ display: 'block', marginBottom: '5px' }}>
         Name:
-        <input 
-          type="text" 
-          value={currName} 
-          onChange={handleNameChange} 
+        <input
+          type="text"
+          value={currName}
+          onChange={handleNameChange}
           style={{ marginLeft: '5px' }}
         />
       </label>
       <label style={{ display: 'block' }}>
         Type:
-        <select value={inputType} onChange={handleTypeChange} style={{ marginLeft: '5px' }}>
+        <select
+          value={inputType}
+          onChange={handleTypeChange}
+          style={{ marginLeft: '5px' }}
+        >
           <option value="Text">Text</option>
           <option value="File">File</option>
         </select>
       </label>
     </BaseNode>
   );
-}
+};

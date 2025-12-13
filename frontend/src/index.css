@@ -2,8 +2,18 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -13,13 +23,12 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 /* Toolbar Styling */
 .toolbar {
-
   padding: 12px;
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +65,9 @@ code {
   background: #1e1e2e;
   border: 1px solid #3f3f46;
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.5),
+    0 4px 6px -2px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
   min-width: 200px;
   height: auto;
@@ -68,7 +79,9 @@ code {
 
 .custom-node:hover {
   border-color: #818cf8;
-  box-shadow: 0 0 0 1px #818cf8, 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 1px #818cf8,
+    0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
 .custom-node-header {
@@ -103,7 +116,7 @@ code {
   gap: 4px;
 }
 
-.custom-node input[type="text"],
+.custom-node input[type='text'],
 .custom-node select,
 .custom-node textarea {
   width: 100%;
@@ -118,7 +131,7 @@ code {
   transition: all 0.2s;
 }
 
-.custom-node input[type="text"]:focus,
+.custom-node input[type='text']:focus,
 .custom-node select:focus,
 .custom-node textarea:focus {
   border-color: #6366f1;
@@ -127,7 +140,7 @@ code {
 }
 
 /* Submit Button */
-button[type="submit"] {
+button[type='submit'] {
   background: #6366f1 !important;
   color: white !important;
   border: none !important;
@@ -141,13 +154,13 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button[type='submit']:hover {
   background: #4f46e5 !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4) !important;
 }
 
-button[type="submit"]:active {
+button[type='submit']:active {
   transform: translateY(0);
 }
 

@@ -11,9 +11,7 @@ export const VisualizationNode = ({ id, data }) => {
       title="Visualization"
       icon={VscGraph}
       color="#ec4899" // Pink
-      handles={[
-        { type: 'target', position: Position.Left, id: 'data' }
-      ]}
+      handles={[{ type: 'target', position: Position.Left, id: 'data' }]}
     >
       <span>Visualize Results</span>
     </BaseNode>

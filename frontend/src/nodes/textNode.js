@@ -22,27 +22,26 @@ export const TextNode = ({ id, data }) => {
   useEffect(() => {
     const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
     const matches = [...currText.matchAll(regex)];
-    const variables = Array.from(new Set(matches.map(m => m[1])));
+    const variables = Array.from(new Set(matches.map((m) => m[1])));
 
     const newHandles = [
       ...variables.map((variable, i) => ({
         type: 'target',
         position: Position.Left,
         id: variable,
-        style: { top: `${(i + 1) * 100 / (variables.length + 1)}%` }
+        style: { top: `${((i + 1) * 100) / (variables.length + 1)}%` },
       })),
-      { type: 'source', position: Position.Right, id: 'output' }
+      { type: 'source', position: Position.Right, id: 'output' },
     ];
 
     setHandles(newHandles);
-    
+
     // updateNodeInternals needs to be called after state update, but here we are setting state.
     // Ideally we wait for render? Or just call it.
     // ReactFlow docs say to call it passing the node id.
     // We should put this in a separate effect that watches 'handles' or simply call it here.
-    // However, setHandles is async (batch). 
+    // However, setHandles is async (batch).
     // We can use a setTimeout or a separate useEffect on [handles].
-    
   }, [currText]);
 
   // Separate effect to trigger internals update when handles actually change
@@ -65,19 +64,19 @@ export const TextNode = ({ id, data }) => {
     >
       <label style={{ display: 'block', height: '100%' }}>
         Text:
-        <textarea 
+        <textarea
           ref={textareaRef}
-          value={currText} 
-          onChange={handleTextChange} 
-          style={{ 
-            width: '100%', 
-            boxSizing: 'border-box', 
+          value={currText}
+          onChange={handleTextChange}
+          style={{
+            width: '100%',
+            boxSizing: 'border-box',
             minHeight: '40px',
             resize: 'none',
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         />
       </label>
     </BaseNode>
   );
-}
+};

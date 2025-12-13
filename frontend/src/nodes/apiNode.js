@@ -13,7 +13,7 @@ export const APINode = ({ id, data }) => {
       color="#06b6d4" // Cyan
       handles={[
         { type: 'target', position: Position.Left, id: 'request' },
-        { type: 'source', position: Position.Right, id: 'response' }
+        { type: 'source', position: Position.Right, id: 'response' },
       ]}
     >
       <span>External API Call</span>

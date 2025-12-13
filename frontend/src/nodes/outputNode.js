@@ -5,7 +5,9 @@ import { BaseNode } from './BaseNode';
 import { VscSymbolKeyword } from 'react-icons/vsc';
 
 export const OutputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
+  const [currName, setCurrName] = useState(
+    data?.outputName || id.replace('customOutput-', 'output_')
+  );
   const [outputType, setOutputType] = useState(data.outputType || 'Text');
 
   const handleNameChange = (e) => {
@@ -25,25 +27,29 @@ export const OutputNode = ({ id, data }) => {
       color="#f43f5e" // Rose
       handles={[
         { type: 'target', position: Position.Left, id: 'value' },
-        { type: 'source', position: Position.Right, id: 'out-test' } // Added to enable cycles for testing
+        { type: 'source', position: Position.Right, id: 'out-test' }, // Added to enable cycles for testing
       ]}
     >
       <label style={{ display: 'block', marginBottom: '5px' }}>
         Name:
-        <input 
-          type="text" 
-          value={currName} 
-          onChange={handleNameChange} 
+        <input
+          type="text"
+          value={currName}
+          onChange={handleNameChange}
           style={{ marginLeft: '5px' }}
         />
       </label>
       <label style={{ display: 'block' }}>
         Type:
-        <select value={outputType} onChange={handleTypeChange} style={{ marginLeft: '5px' }}>
+        <select
+          value={outputType}
+          onChange={handleTypeChange}
+          style={{ marginLeft: '5px' }}
+        >
           <option value="Text">Text</option>
           <option value="File">Image</option>
         </select>
       </label>
     </BaseNode>
   );
-}
+};

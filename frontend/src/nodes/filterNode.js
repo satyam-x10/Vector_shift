@@ -13,7 +13,7 @@ export const FilterNode = ({ id, data }) => {
       color="#f97316" // Orange
       handles={[
         { type: 'target', position: Position.Left, id: 'input' },
-        { type: 'source', position: Position.Right, id: 'output' }
+        { type: 'source', position: Position.Right, id: 'output' },
       ]}
     >
       <span>Filter Data</span>

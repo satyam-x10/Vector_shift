@@ -13,7 +13,7 @@ export const TransformNode = ({ id, data }) => {
       color="#3b82f6" // Blue
       handles={[
         { type: 'target', position: Position.Left, id: 'input' },
-        { type: 'source', position: Position.Right, id: 'output' }
+        { type: 'source', position: Position.Right, id: 'output' },
       ]}
     >
       <span>Transform Data</span>
