@@ -1,12 +1,14 @@
 // textNode.js
-import { useState, useEffect, useRef } from 'react';
-import { Position, useUpdateNodeInternals } from 'reactflow';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { Handle, Position, useUpdateNodeInternals } from 'reactflow';
 import { BaseNode } from './BaseNode';
 import { VscSymbolString } from 'react-icons/vsc';
 
 export const TextNode = ({ id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
   const [handles, setHandles] = useState([]);
+  const [variableValues, setVariableValues] = useState(data?.variables || {});
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const textareaRef = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
 
@@ -18,39 +20,34 @@ export const TextNode = ({ id, data }) => {
     }
   }, [currText]);
 
-  // Variable Detection
-  useEffect(() => {
+  const variables = useMemo(() => {
     const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
     const matches = [...currText.matchAll(regex)];
-    const variables = Array.from(new Set(matches.map((m) => m[1])));
-
-    const newHandles = [
-      ...variables.map((variable, i) => ({
-        type: 'target',
-        position: Position.Left,
-        id: variable,
-        style: { top: `${((i + 1) * 100) / (variables.length + 1)}%` },
-      })),
-      { type: 'source', position: Position.Right, id: 'output' },
-    ];
-
-    setHandles(newHandles);
-
-    // updateNodeInternals needs to be called after state update, but here we are setting state.
-    // Ideally we wait for render? Or just call it.
-    // ReactFlow docs say to call it passing the node id.
-    // We should put this in a separate effect that watches 'handles' or simply call it here.
-    // However, setHandles is async (batch).
-    // We can use a setTimeout or a separate useEffect on [handles].
+    return Array.from(new Set(matches.map((m) => m[1])));
   }, [currText]);
 
-  // Separate effect to trigger internals update when handles actually change
+  // Handle Updates
+  useEffect(() => {
+    const newHandles = [
+      { type: 'source', position: Position.Right, id: 'output' },
+    ];
+    setHandles(newHandles);
+  }, []); // Only runs once now as output handle is static
+
+  // Separate effect to trigger internals update when variable count changes
   useEffect(() => {
     updateNodeInternals(id);
-  }, [handles, id, updateNodeInternals]);
+  }, [variables, id, updateNodeInternals]);
 
   const handleTextChange = (e) => {
     setCurrText(e.target.value);
+  };
+
+  const handleVariableChange = (variable, value) => {
+    setVariableValues((prev) => ({
+      ...prev,
+      [variable]: value,
+    }));
   };
 
   return (
@@ -62,21 +59,106 @@ export const TextNode = ({ id, data }) => {
       color="#f59e0b" // Amber
       handles={handles}
     >
-      <label style={{ display: 'block', height: '100%' }}>
-        Text:
-        <textarea
-          ref={textareaRef}
-          value={currText}
-          onChange={handleTextChange}
-          style={{
-            width: '100%',
-            boxSizing: 'border-box',
-            minHeight: '40px',
-            resize: 'none',
-            overflow: 'hidden',
-          }}
-        />
-      </label>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <label style={{ display: 'block' }}>
+          <span style={{ fontSize: '12px', color: '#888', marginBottom: '4px', display: 'block' }}>Text Template</span>
+          <textarea
+            ref={textareaRef}
+            value={currText}
+            onChange={handleTextChange}
+            className="nodrag"
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              minHeight: '60px',
+              resize: 'none',
+              overflow: 'hidden',
+              background: '#1e1e2e',
+              color: '#eee',
+              border: '1px solid #444',
+              borderRadius: '4px',
+              padding: '8px',
+              fontSize: '12px',
+              fontFamily: 'monospace',
+            }}
+          />
+        </label>
+
+        {variables.length > 0 && (
+          <div className="variable-viewer">
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="variable-collapse-btn"
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                color: '#f59e0b',
+                fontSize: '11px',
+                cursor: 'pointer',
+                textAlign: 'left',
+                padding: '4px 0',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+              }}
+            >
+              <span style={{
+                transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)',
+                transition: 'transform 0.2s',
+                display: 'inline-block'
+              }}>▶</span>
+              Variables ({variables.length})
+            </button>
+
+            {!isCollapsed && (
+              <div className="variable-list" style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                marginTop: '5px',
+                padding: '8px',
+                background: '#252535',
+                borderRadius: '6px',
+                border: '1px solid #333'
+              }}>
+                {variables.map((variable) => (
+                  <div key={variable} style={{ display: 'flex', flexDirection: 'column', gap: '2px', position: 'relative' }}>
+                    <Handle
+                      type="source"
+                      position={Position.Right}
+                      id={variable}
+                      style={{
+                        right: '-28px', // Adjust based on padding
+                        top: '50%',
+                        transform: 'translateY(-50%)'
+                      }}
+                    />
+                    <label style={{ fontSize: '10px', color: '#aaa' }}>{variable}</label>
+                    <input
+                      type="text"
+                      className="nodrag"
+                      value={variableValues[variable] || ''}
+                      onChange={(e) => handleVariableChange(variable, e.target.value)}
+                      placeholder={`Value for ${variable}`}
+                      style={{
+                        background: '#151520',
+                        border: '1px solid #444',
+                        color: '#eee',
+                        borderRadius: '3px',
+                        padding: '4px 6px',
+                        fontSize: '11px',
+                        width: '100%',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </BaseNode>
   );
 };
