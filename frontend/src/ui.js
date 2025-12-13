@@ -121,7 +121,7 @@ export const PipelineUI = () => {
         <MiniMap
           style={{ background: '#1e1e2e', stroke: '#333' }}
           nodeStrokeColor="#505050"
-          nodeColor="#1e1e2e"
+          nodeColor="#434343ff"
           position="top-left"
         />
       </ReactFlow>

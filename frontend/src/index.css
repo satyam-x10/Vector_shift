@@ -17,8 +17,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #1a1a2e;
-  /* Deep dark blue/purple */
+  background: linear-gradient(135deg, #4c1d95 0%, #000000 100%);
+  min-height: 100vh;
+  /* Bright purple to black gradient */
   color: #e2e8f0;
 }
 
@@ -201,4 +202,11 @@ button[type='submit']:active {
 
 .react-flow__handle-right {
   right: -5px;
+}
+
+.react-flow__minimap,
+.react-flow__minimap-mask {
+  /* background: transparent !important; */
+  fill: transparent !important;
+  border-radius: 12px;
 }
