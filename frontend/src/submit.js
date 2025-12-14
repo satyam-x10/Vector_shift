@@ -17,13 +17,20 @@ export const SubmitButton = () => {
 
     const handleSubmit = async () => {
         setIsLoading(true);
+
+        // Filter edges to ensure they connect to existing nodes
+        const nodeIds = new Set(nodes.map((n) => n.id));
+        const validEdges = edges.filter(
+            (edge) => nodeIds.has(edge.source) && nodeIds.has(edge.target)
+        );
+
         try {
             const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ nodes, edges }),
+                body: JSON.stringify({ nodes, edges: validEdges }),
             });
 
             const data = await response.json();

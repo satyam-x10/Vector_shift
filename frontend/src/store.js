@@ -26,8 +26,25 @@ export const useStore = create((set, get) => ({
     });
   },
   onNodesChange: (changes) => {
+    const { nodes, edges } = get();
+    const removedNodeIds = new Set();
+    changes.forEach((change) => {
+      if (change.type === 'remove') {
+        removedNodeIds.add(change.id);
+      }
+    });
+
+    const updatedEdges =
+      removedNodeIds.size > 0
+        ? edges.filter(
+          (edge) =>
+            !removedNodeIds.has(edge.source) && !removedNodeIds.has(edge.target)
+        )
+        : edges;
+
     set({
-      nodes: applyNodeChanges(changes, get().nodes),
+      nodes: applyNodeChanges(changes, nodes),
+      edges: updatedEdges,
     });
   },
   onEdgesChange: (changes) => {
